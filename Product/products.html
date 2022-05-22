@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prodct Page</title>
+    <a href="admin.html"></a>
+    <style>
+        .product{
+            display:grid;
+            grid-template-columns: repeat(4,1fr);
+            gap:20px;
+        }
+        img{
+            /* border:1px solid red; */
+            width:80%;
+            /* height:200px; */
+        }
+        #sold{
+            background-color: rgb(74, 208, 231);
+            padding: 5px;
+            border-radius: 5px;
+            border: none;
+            margin-left: 30px;
+            /* display: flex; */
+        }
+        #remove{
+            background-color: rgb(233, 57, 44);
+            padding: 5px;
+            border-radius: 5px;
+            border: none;
+            margin-right: 15px;
+          
+            /* justify-content: space-between; */
+        }
+    
+    </style>
+</head>
+<body>
+    <div id="counter"></div>
+    <div class="product"></div>
+</body>
+</html>
+<script>
+
+    var ss=JSON.parse(localStorage.getItem("Products"))||[];
+
+    var length=ss.length;
+    document.getElementById("counter").innerText=`Total number of Products ${length}`;
+
+    ss.map(function(ele,index){
+
+    var bag = document.createElement("div");
+
+    var image=document.createElement("img");
+    image.src=ele.image
+    var nm=document.createElement("p");
+    nm.innerText=ele.name
+    var cat=document.createElement("p");
+    cat.innerText=ele.category
+    var pr=document.createElement("p");
+    pr.innerText=ele.price
+    var g=document.createElement("p");
+    g.innerText=ele.gender
+    var remove=document.createElement("button");
+    remove.innerText="REMOVE"
+    remove.setAttribute("id","remove")
+    remove.addEventListener("click",function() {
+        removeProduct(ele,index);
+    })
+    var s=document.createElement("button");
+    s.setAttribute("id","sold")
+    s.innerText="SOLD"
+    s.addEventListener("click",function() {
+        soldValue(ele);
+        // console.log(soldValue())
+    })
+
+    if(ele.sold=="true")
+    {
+        s.style.backgroundColor="red";
+    }
+    else if(ele.sold=="false")
+    {
+        s.style.backgroundColor="green"
+    }
+
+
+    var box=document.createElement("div");
+    box.append(remove,s);
+    bag.append(image,nm,cat,pr,g,box)
+    document.querySelector(".product").append(bag)
+    })
+
+    var soldbtn=document.getElementById("sold")
+    console.log(soldbtn.value)
+
+    function removeProduct(ele,index)
+    {
+        ss.splice(index,1);
+        localStorage.setItem("Products",JSON.stringify(ss))
+        window.location.reload();
+    }
+
+    function soldValue(ele,index)
+    {
+        console.log(ele)
+        if(ele.sold=="false")
+        {
+            ele.sold="true"
+        }
+        else if(ele.sold=="true")
+        {
+            ele.sold="false"
+        }
+        localStorage.setItem("Products",JSON.stringify(ss))
+        window.location.reload();
+    }
+
+</script>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecom 1</title>
+    <style>
+        body{
+            background-color: blanchedalmond;
+        }
+        #form>input{
+            margin-top: 20px;
+            margin-bottom: 5px;
+            font-size: 19px;
+        }
+        #form>select{
+            margin-top: 20px;
+            margin-bottom: 5px;
+            font-size: 19px;
+        }
+        
+        #add{
+            display: block;
+            margin: auto;
+            font-size: 19px;
+            padding: 8px;
+            background-color: rgb(11, 174, 250);
+            color:white;
+            border: none;
+            border-radius: 5px;
+        }
+        #add:hover{
+            background-color: blue;
+        }
+
+    </style>
+   
+</head>
+<body>
+    
+<form id="form">
+    <input type="text" id="name" placeholder="enter name">
+    <input type="text" id="category" placeholder="enter category">
+    <input type="text" id="image" placeholder="enter image">
+    <input type="text" id="price" placeholder="enter price">
+    <select name="" id="gender">
+    <option value="">Gender</option>
+    <option value="female">female</option>
+    <option value="male">male</option>
+    </select>
+    <select name="" id="sold">
+        <option value="false">Sold</option>
+        <option value="false">false</option>
+        <option value="true">true</option>
+    </select>
+    <button id="add">Submit</button>
+    
+</form>
+</body>
+</html>
+<script>
+    document.querySelector("#add").addEventListener("click",myProduct)
+    var prodArr=JSON.parse(localStorage.getItem("Products"))||[];
+function Product(n,c,i,p,g,s)
+{
+    this.name=n;
+    this.category=c;
+    this.image=i;
+    this.price=p;
+    this.gender=g;
+    this.sold=s;
+}
+function myProduct()
+{
+    event.preventDefault();
+    var nm=form.name.value;
+    var cat=form.category.value;
+    var image=form.image.value;
+    var pr=form.price.value;
+    var g=form.gender.value;
+    var s=form.sold.value;
+    var ss= new Product(nm,cat,image,pr,g,s)
+    // console.log(ss)
+    prodArr.push(ss)
+    localStorage.setItem("Products",JSON.stringify(prodArr));
+    window.location.reload();
+}
+
+</script>
