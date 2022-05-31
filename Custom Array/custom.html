@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Array</title>
+</head>
+<body>
+    <h1>Custom Array</h1>
+</body>
+</html>
+<script>
+function create_Array()
+{
+    Object.defineProperty(this,"length",{
+        value:0,
+        writable:true,
+        enumerable:false,
+    });
+    this.length=arguments.length
+    for(var i=0;i<arguments.length;i++)
+    {
+        this[i]=arguments[i];
+    }
+}
+
+let arr=new create_Array(1,2,3,4,5,6)
+console.log(Object.values(arr))
+
+create_Array.prototype.push=function(val)
+{
+    this[this.length]=val;
+    this.length++;
+}
+
+create_Array.prototype.pop=function(val)
+{
+    delete this[this.length-1]
+    this.length--;
+}
+create_Array.prototype.top=function()
+{
+    console.log(this[this.length-1])
+}
+
+create_Array.prototype.print=function()
+{
+    console.log(Object.values(this))
+}
+
+create_Array.prototype.printReverse=function()
+{
+    var a=[]
+    for(var i=this.length-1;i>=0;i--)
+    {
+        a.push(this[i])
+    }
+    console.log(a)
+}
+
+create_Array.prototype.size=function()
+{
+    console.log(this.length)
+}
+
+arr.push(7)
+console.log(Object.values(arr))
+arr.pop()
+// console.log(Object.values(arr))
+arr.top()
+arr.print()
+arr.printReverse()
+arr.size()
+
+
+</script>
