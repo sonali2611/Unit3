@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Report</title>
+    <style>
+      body {
+          
+          background-image: url("https://wallpaperaccess.com/full/1540010.jpg");
+          background-size: cover;
+      }
+      #main {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .gmap_canvas {
+        /* margin: auto; */
+        /* border:5px solid yellow; */
+          width:400px;
+          height: 400px;
+        margin-left:800px ;
+        margin-right: 330px;
+        margin-bottom: 400px;
+        margin-top: -200px;
+      } 
+
+      #city {
+        width: 20%;
+        height: 30px;
+        margin: auto;
+      }
+      button {
+        width: 20%;
+        height: 30px;
+        margin: auto;
+        margin-top: 20px;
+        border-radius: 10px;
+        
+      }
+      h1{
+          color: white;
+      }
+      p{
+         font-size: 20px;
+         font-weight: bold;
+      
+      }
+      button:hover{
+        background-color: black;
+        color: white;
+        border: 0px;
+        border-radius: 10px;
+        font-size: 20px; 
+      }
+      #cont{
+          /* border:5px solid yellow; */
+          width:200px;
+          height: 200px;
+        margin-right:500px ;
+        margin-left: 130px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="main">
+      <h1>Select Your city</h1>
+      <input type="text" id="city" />
+      <button onclick="getWeather()">Search</button>
+
+        <div id="cont"></div>
+        <div class="gmap_canvas"> </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  async function getWeather() {
+    let city = document.getElementById("city").value;
+    let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&appid=c5bf957f9c743a7db84c4318f89c5940&units=metric`;
+
+    let res = await fetch(url);
+    let data = await res.json();
+    showdata(data);
+    showwhether(city);
+    console.log(data);
+  }
+
+  let divTag = document.getElementById("cont");
+
+  function showdata(arr) {
+    let div = document.createElement("div");
+    divTag.innerHTML = "";
+
+    let temp = document.createElement("p");
+   temp.innerText = `Current Temp: ${arr.main.temp}°`;
+
+    let temp_max = document.createElement("p");
+    temp_max.innerText = `Max Temp: ${arr.main.temp_min}°`;
+
+    let temp_min = document.createElement("p");
+    temp_min.innerText = `Min Temp: ${arr.main.temp_min}°`;
+    
+    let sp=document.createElement("p")
+    sp.innerText=`Wind Speed:${arr.wind.speed}`;
+
+    let cld=document.createElement("p")
+    cld.innerText=`Clouds :${arr.clouds.all}`;
+
+    let sunr=document.createElement("p")
+    sunr.innerText=`Sunrise: ${arr.sys.sunrise}`
+
+    let suns=document.createElement("p")
+    suns.innerText=`Sunrise: ${arr.sys.sunset}`
+
+    div.append(temp,temp_max,temp_min,sp,cld,sunr,suns);
+    divTag.append(div);
+  }
+
+  function showwhether(city) {
+    var satelite = document.querySelector(".gmap_canvas");
+    satelite.innerHTML = `<iframe
+          width="500"
+          height="400"
+          id="gmap_canvas"
+          src="https://maps.google.com/maps?q=${city}&t=&z=13&ie=UTF8&iwloc=&output=embed"
+          frameborder="0"
+          scrolling="no"
+          marginheight="0"
+          marginwidth="0"
+        ></iframe>`;
+
+  }
+</script>
