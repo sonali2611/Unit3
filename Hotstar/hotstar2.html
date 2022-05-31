@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #show{
+            width: 206px;
+            height: 200px;
+            border: 1px solid black;
+            overflow: scroll;
+            display: grid;
+            grid-template-columns: repeat(1,100%);
+            
+        }
+        #movie{
+            width: 200px;
+        }
+        #show>div>img{
+            height: 50px;
+            width: 50px;
+        }
+        #show>div{
+            display: flex;
+            gap: 10px;
+           
+        }
+        
+        #main{
+            display: flex;
+           
+        }
+        #showmovie{
+            border: 1px solid black;
+          
+        }
+        
+      
+    </style>
+</head>
+<body>
+   <div id="main">
+   <div id="main2">
+    <input oninput="debounce(getData,1000)" type="text" id="movie">
+    <div id="show"></div>
+   </div>
+    <div id="showMovie"></div>
+   </div>
+</body>
+</html>
+
+<script>
+let id;
+async function getData(){
+let movie=document.getElementById("movie").value;
+
+if(movie.length<=2){
+    return false
+}
+    let url=`http://www.omdbapi.com/?apikey=14cc5fd8&s=${movie}`
+    let res=await fetch(url)
+    let data=await res.json()
+    let search=data.Search
+    showData(search)
+    // localStorage.setItem("myLocal",JSON.stringify("showData"))
+    // myFn(movie)
+    console.log(search);
+
+}
+
+let divTag=document.getElementById("show")
+function showData(arr){
+    divTag.innerHTML=""
+    if(arr==undefined){
+        return false
+    }
+    arr.map(function(elem){
+        let div=document.createElement("div")
+        let p=document.createElement("p")
+        let img=document.createElement("img")
+        img.addEventListener("click",function(){
+
+myFn(elem)
+
+        })
+
+        img.src=elem.Poster
+        p.innerText=elem.Title
+
+div.append(img,p)
+divTag.append(div)
+
+    })
+}
+
+
+function debounce(getData,delay){
+
+if(id){
+    clearTimeout(id)
+}
+   id= setTimeout(function(){
+        getData()
+
+    },delay)
+}
+
+// arr1=[]
+
+function myFn(arr1){
+    let showDiv=document.getElementById("showMovie")
+    showDiv.innerHTML=""
+
+//     if(arr1==undefined){
+//         return false
+//     }
+//     if(showDiv.length<=2){
+//     return false
+// }
+
+    
+   
+ console.log(arr1);
+
+ let div=document.createElement("div")
+        let p=document.createElement("h1")
+        let img=document.createElement("img")
+        img.src=arr1.Poster
+        p.innerText=`Movie Name: ${arr1.Title}`
+
+        div.append(img,p)
+        showDiv.append(div)
+        
+
+
+
+
+}
+
+</script>

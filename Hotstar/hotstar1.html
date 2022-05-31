@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #show{
+
+            width: 200px;
+            height: 200px;
+            border: 1px solid red;
+        overflow: scroll;
+        }
+        #movie{
+            width: 195px;
+        }
+    </style>
+</head>
+<body>
+    
+    <input oninput="debounce(getmovie,1000)" type="text" id="movie">
+    <div id="show"></div>
+</body>
+</html>
+
+<script>
+let id;
+    let divTag=document.getElementById("show")
+   async function getmovie(){
+
+
+
+    try{
+        let name=document.getElementById("movie").value;
+
+let url=`http://www.omdbapi.com/?apikey=14cc5fd8&s=${name}`
+
+
+if(name.length<=2){
+    return false
+}
+
+let res=await fetch (url)
+let data=await res.json()
+let search=data.Search
+displayFn(search)
+    }
+catch(err){
+    console.log("err",err);
+}
+
+
+}
+
+
+function displayFn(arr){
+    divTag.innerHTML=""
+
+
+    if(arr==undefined){
+        return false
+    }
+arr.map(function(elem){
+
+    
+let moviename=document.createElement("p")
+moviename.innerText=elem.Title
+
+
+divTag.append(moviename)
+
+
+})
+
+}
+
+function debounce(func,delay){
+
+
+    if(id){
+        clearTimeout(id)
+    }
+  id= setTimeout(function(){
+        func()
+    },delay)
+}
+    
+</script>

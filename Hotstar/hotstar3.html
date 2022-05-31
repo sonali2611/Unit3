@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #show{
+            display: grid;
+            grid-template-columns: repeat(4,20%);
+        }
+    </style>
+</head>
+<body>
+    <div id="show"></div>
+</body>
+</html>
+<script>
+
+async function getdata(){
+    // let url=`https://api.themoviedb.org/3/movie/550?&/discover/movie?sort_by=popularity.desc&api_key=0be192c2271dd8819224b9f600a437cc`
+ let url=`https://api.themoviedb.org/3/movie/popular?api_key=0be192c2271dd8819224b9f600a437cc&language=en-US&page=1`
+    let res=await fetch(url)
+    let data=await res.json()
+    let result=data.results
+    showData(result)
+    console.log(result);
+}
+getdata()
+
+let divTag=document.getElementById("show")
+function showData(arr){
+    arr.map(function(elem){
+
+        let div=document.createElement("div")
+        let img=document.createElement("img")
+        let name=document.createElement("h2")
+
+  img.setAttribute("src",elem.poster_path)
+        name.innerText=elem.title
+
+        div.append(img,name)
+        divTag.append(div)
+    }) 
+}
+
+</script>
