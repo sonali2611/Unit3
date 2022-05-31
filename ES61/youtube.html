@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Youtube Page</title>
+    <style>
+      #main {
+        width: 100%;
+        height: 600px;
+        border: 5px solid black;
+        display: flex;
+      }
+      #left {
+        border: 1px solid blue;
+        background-color: aquamarine;
+        flex: 1;
+        overflow: scroll;
+      }
+      #left>a>div{
+       
+        text-align: center;
+        height: 40px;
+        width: 100%;
+        padding-top: 20px;
+      }
+      #right {
+        border: 1px solid green;
+        flex: 4;
+        overflow: scroll;
+      }
+      #video {
+        width: 60%;
+        height: 30px;
+        margin-left: 190px;
+        margin-top: 8px;
+      }
+      #search {
+        height: 50px;
+        width: 100%;
+        border: 1px solid black;
+      }
+      #navbar {
+        width: 100%;
+        height: 40px;
+        border: 1px solid blue;
+        display: flex;
+        justify-content: space-evenly;
+        background-color: lightgreen;
+      }
+      #navbar > a {
+        height: 70%;
+        width: 100px;
+        /* border: 1px solid red; */
+        border-radius: 20px;
+        text-align: center;
+        padding-top: 10px;
+        text-decoration: none;
+        background-color: #f2f2f2;
+        color: black;
+      }
+      #navbar > a:hover{
+          background-color: black;
+          color: white;
+      }
+      #show{
+          display: grid;
+          grid-template-columns: repeat(4,25%);
+         
+            }
+      img{
+          width: 200px;
+          height: 100px;
+      }
+      a{
+          text-decoration: none;
+      }
+      #left>a>div:hover{
+            background-color: #e5e5e5;
+            
+            }
+            #click:hover{
+            background-color: teal;
+            border-radius: 15px;
+            
+            }
+
+
+    </style>
+  </head>
+  <body>
+    <div id="main">
+      <div id="left">
+        <a href=""><div>Home</div></a>
+        <a href=""><div>Library</div></a>
+        <a href=""><div>Watch Later</div></a>
+        <a href=""><div>Liked Videos</div></a>
+        <a href=""><div>You Tube Premium</div></a>
+        <a href=""><div>Movies</div></a>
+        <a href=""><div>Live</div></a>
+        <a href=""><div>Learning</div></a>
+        <a href=""><div>Show More</div></a>
+        <a href=""><div>Liked Videos</div></a>
+        <a href=""><div>You Tube Premium</div></a>
+        <a href=""><div>Movies</div></a>
+      </div>
+      <div id="right">
+        <div id="search">
+          <input type="text" id="video" placeholder="                                                             Search You Tube" />
+          <button id ="click"  onclick="showData()">SEARCH</button>
+        </div>
+        <div id="navbar">
+          <a href=""><div>All</div></a>
+          <a href=""><div>movies</div></a>
+          <a href=""><div>Songs</div></a>
+          <a href=""><div>Sony</div></a>
+          <a href=""><div>TMKOC</div></a>
+          <a href=""><div>KBC</div></a>
+          <a href=""><div>AVENGERS</div></a>
+        </div>
+        <div id="show"></div>
+      </div>
+      
+    </div>
+  </body>
+</html>
+<script>
+  // const Api = `AIzaSyA7pOOOKA8XIfFqriOZHbJh5SMBiF25xdA`;
+  const Api= `AIzaSyBFYNjfGqRYBzenE4Vx4V24G2mmpzn8Z00`;
+  
+    async function showData() {
+    const video = document.getElementById("video").value;
+    const url = `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q=${video}&type=video&key=${Api}`;
+    
+    const res = await fetch(url);
+    const data = await res.json();
+    const item = data.items;
+    displayData(item);
+    console.log(item);
+  }
+
+  const divTag = document.getElementById("show");
+  const displayData = (arr) => {
+      divTag.innerHTML=""
+    arr.map(({ id: { videoId }, snippet }) => {
+      let div = document.createElement("div");
+      div.onclick = () => {
+        videoData(myObj);
+      };
+
+      let img = document.createElement("img");
+      img.src = snippet.thumbnails.high.url;
+
+      let title = document.createElement("p");
+      title.innerText = snippet.title;
+
+      div.append(img, title);
+      divTag.append(div);
+
+      let myObj = {
+        videoId: videoId,
+        snippet: snippet,
+      };
+    });
+  };
+
+  function videoData(myObj)
+  {
+    localStorage.setItem("local1", JSON.stringify(myObj));
+    window.location.href = "next.html";
+  }
+</script>

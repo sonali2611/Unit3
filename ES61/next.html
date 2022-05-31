@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Next Page </title>
+    <style>
+        #display{
+            width: 50%;
+            height: 400px;
+           
+
+        }
+    </style>
+</head>
+<body>
+   <div id="display">
+   
+   </div>
+</body>
+</html>
+
+<script>
+let divTag=document.getElementById("display")
+let {videoId}=JSON.parse(localStorage.getItem("local1"))
+
+
+let src=`https://www.youtube.com/embed/${videoId}`
+let iframe=document.createElement("iframe")
+iframe.setAttribute("src",src)
+iframe.setAttribute("allowfullscreen","true")
+iframe.width="100%"
+iframe.height="100%"
+divTag.append(iframe)
+
+
+
+
+
+</script>
