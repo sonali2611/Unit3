@@ -1,0 +1,29 @@
+#navbar{
+    /* border :1px solid black; */
+    background-color: aqua;
+    display: flex;
+    justify-content: space-between;
+}
+#navbar>h3{
+    padding-left: 10px;
+}
+#navbar>a{
+    padding-right: 20px;
+    padding-top: 18px;
+}
+#form{
+    border:1px solid black;
+    margin: auto;
+    width:200px;
+    height:200px;
+    margin-top: 40px;
+    background-color: rgb(252, 149, 111);
+}
+#form>h1{
+    text-align: center;
+}
+#submit{
+    border:2px solid black;
+    margin-left:50px ;
+    margin-top: 5px;
+}
