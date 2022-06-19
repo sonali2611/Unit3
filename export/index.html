@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/nav.css">
+    <link rel="stylesheet" href="../styles/index.css">
+    <title>Home</title>
+</head>
+<body>
+    <div id="nav"></div>  
+    <input type="search"  id="search" placeholder="Search your favourite dish">
+    <h2 style="color: #fff; margin-left: 8px;"># Respi of the Day</h2>
+    <div id="resDay"></div>
+    <div id="dish"></div>        
+</body>
+</html>
+<!-- <script  src="./scripts/index.js"></script> -->
+<script type="module">
+
+// oninput="mealDebounc()"
+
+document.getElementById("search").addEventListener("input",mealDebounc)
+
+
+    import {navbar} from "../components/nav.js";
+  document.getElementById("nav").innerHTML=navbar();
+    
+    let id;
+    function mealDebounc(){
+        clearTimeout(id);
+        id = setTimeout(()=>{
+            searchMeal();
+        },2000)        
+    }
+    
+    function searchMeal(){  
+
+    let meal = document.getElementById("search").value;    
+        fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${meal}`)
+        .then(function(res){
+            return res.json();
+        }).then(function(res){
+            console.log(res.meals)
+            dishes(res.meals)
+        })
+    }
+
+    function dishes(data){
+        let container = document.getElementById("dish");
+        container.innerHTML="";
+        data.forEach(el=>{
+            let mainDiv = document.createElement('div');
+            
+            let image = document.createElement('img');
+            image.src=el.strMealThumb;
+
+            let p1 = document.createElement('h2');
+            p1.innerText=el.strMeal;
+
+            let p2 = document.createElement('p');
+            p2.innerText=`Dish type: ${el.strArea}`;
+
+            mainDiv.append(image,p1,p2);
+            container.append(mainDiv);          
+
+        });
+
+    }
+</script>

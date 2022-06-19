@@ -1,0 +1,36 @@
+*{
+    margin: 0;
+    padding: 0;    
+}
+body{
+    background-color: rgb(56, 52, 52);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+
+ #options{
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(0, 102, 255);    
+    padding: 10px;
+} 
+a{
+    text-decoration: none; 
+    color: white;   
+}
+input{
+    display: block;
+    width: 300px;
+    text-align: center;
+    margin: auto;
+    margin-top: 30px;
+    font-size: large; 
+    border-radius: 10px;
+    padding: 7px; 
+    border: none;  
+}
+input:focus{
+    outline: none;
+}

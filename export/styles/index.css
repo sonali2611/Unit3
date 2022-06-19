@@ -1,0 +1,19 @@
+#dish{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+}
+#dish>div{
+    width: 90%;
+    margin: auto;
+    color: #fff;
+    text-align: center;
+    margin-top: 15px;
+    border: 1px solid green;
+    padding: 10px;
+    background-color: rgba(177, 40, 40, 0.315);
+    line-height: 2;
+}
+
+#dish>div>img{
+    width: 100%;
+}

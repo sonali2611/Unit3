@@ -1,0 +1,110 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/nav.css">
+    <title>RANDOM</title>
+    <style>
+    
+    #images>img{
+        width: 100%;
+        
+    }
+    #dish{
+        border: .1px solid black;
+     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;;
+        width: 30%;
+        margin: auto;
+        margin-top: 20px;
+
+    }
+    p{
+        letter-spacing: 0.32px;
+        color: black;
+    }
+    </style>
+    
+</head>
+<body>
+    <div id="nav"></div>
+</body>
+<h2 id="th2">Click on button to get random dishes</h2>
+
+
+<div id="dish"></div>
+
+</html>
+<script type="module" src="./scripts/index.js"></script>
+
+<script>   
+
+    let id;
+    function mealDebounc(){
+        clearTimeout(id);
+        id = setTimeout(()=>{
+            searchMeal();
+        },2000)        
+    }
+    
+    function searchMeal(){ 
+        fetch("https://www.themealdb.com/api/json/v1/1/random.php")
+          .then(function(res){
+              return res.json();
+          }).then(function(res){
+              console.log(res.meals);
+              dishes(res.meals)
+          })
+    }
+searchMeal();
+    let container = document.getElementById("dish");
+    function dishes(data){
+        container.innerHTML="";
+        data.forEach(el=>{
+            let mainDiv = document.createElement('div');
+            mainDiv.setAttribute("id","images")
+            
+            let image = document.createElement('img');
+            
+            image.src=el.strMealThumb;
+
+            mainDiv.append(image);
+
+            let texDiv =document.createElement("div");
+            let p1 = document.createElement('h2');
+            p1.innerText=el.strMeal;
+
+            let p2 = document.createElement('p');
+            p2.innerText=`Dish type: ${el.strArea}`;
+
+            let ind = document.createElement('p');
+            ind.innerText="INGREDIENTS:-"
+            ind.setAttribute("id","ind");            
+
+            let p3 = document.createElement('p');
+            p3.innerText=`1). ${el.strIngredient1}`;
+
+            let p4 = document.createElement('p');
+            p4.innerText=`2). ${el.strIngredient2}`;
+
+            let p5 = document.createElement('p');
+            p5.innerText=`3). ${el.strIngredient3}`;
+
+            let p6 = document.createElement('p');
+            p6.innerText=`4). ${el.strIngredient4}`;
+
+            let p7 = document.createElement('p');
+            p7.innerText=`5). ${el.strIngredient5}`;
+            
+            let p8 = document.createElement('p');
+            p8.innerText=`6). ${el.strIngredient6}`;            
+
+            texDiv.append(p1,p2,ind,p3,p4,p5,p6,p7,p8)
+
+            
+            container.append(mainDiv,texDiv);       
+
+        });
+
+    }
+</script>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket System</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+    
+// Step 1: creating categoris class and all child classes like VVIPs, VIPs, General 
+
+// First of all we need to create Parent category class so that all category can adopt that propery, no need to write same property again and again.
+
+class Categoris {
+    constructor(category, age, gender) {
+        this._category = category;
+        this.age = age;
+        this.gender = gender;
+
+    }
+    get category() {
+        return this._category;
+    }
+    set category(value) {
+        this._category = value;
+    }
+}
+
+// let cat1 = new Categoris(23,"Male","VVIPs");
+// console.log('cat1:', cat1)
+
+
+// Now we are creating different category class step wise 
+// 1. VVIPs
+// 2. VIPs 
+// 3. General 
+
+// All the child classes are adopting the all propery of parent class using "super" key word we just need to pass parameter to it and constuctor function 
+
+// 1. VVIPs class
+class VVIPs extends Categoris {
+    constructor(age, gender) {
+        super("VVIPs", age, gender);
+
+    }
+    get category() {
+        return this._category;
+    }
+    set category(value) {
+        this._category = value;
+    }
+}
+
+// let vvip1 = new VVIPs(12,"Male")
+// console.log('vvip1:', vvip1)
+
+// 2. VIPs class
+class VIPs extends Categoris {
+    constructor(age, gender) {
+        super("VIPs", age, gender);
+
+    }
+    get category() {
+        return this._category;
+    }
+    set category(value) {
+        this._category = value;
+    }
+}
+
+// let VIPs1 = new VIPs(34,"Female")
+// console.log('VIPs:', VIPs1)
+
+// 3. General 
+class General extends Categoris {
+    constructor(age, gender) {
+        super("General", age, gender);
+
+    }
+    get category() {
+        return this._category;
+    }
+    set category(value) {
+        this._category = value;
+    }
+}
+
+// let General1 = new General(34,"Female")
+// console.log('General1:', General1)
+
+// we have done with Categoris part now move to next step 
+
+// Step 2: creating slots 
+
+class Slot {
+    constructor(category, number) {
+        this.category = category;
+        this.number = number;
+        this._isBooked = false;
+    }
+
+    get isBooked() {
+        return this._isBooked;
+    }
+
+    set isBooked(value) {
+        this._isBooked = value;
+    }
+}
+
+// let slot1 = new Slot("VVIPs",1);
+// console.log('slot1:', slot1)
+
+class seatingFloor {
+    constructor(floorNumber, maxFloor) {
+        this.floorNumber = floorNumber;
+        this._seatingSlots = [];
+
+        for (let i = 0; i < 3; i++) {
+            if (i == 0) {
+                this._seatingSlots.push(new Slot("VVIPs", i));
+            } else if (i == 1) {
+                this._seatingSlots.push(new Slot("VIPs", i));
+            } else {
+                this._seatingSlots.push(new Slot("General", i))
+            }
+        }
+    }
+    get seatingSlots() {
+        return this._seatingSlots;
+    }
+}
+
+// let seatfloor1 = new seatingFloor(3)
+// console.log('seatfloor1:', seatfloor1)
+
+
+class Stadium {
+    constructor(number) {
+        this._floor = [];
+        this._numberOfFloors = number;
+
+
+        for (let i = 0; i < this._numberOfFloors; i++) {
+            this._floor[i] = new seatingFloor(i)
+        }
+    }
+    get numberOfFloors() {
+        return this._numberOfFloors;
+    }
+    get floor() {
+        return this._floor;
+    }
+
+    set floor(value) {
+        this._floor.push(value);
+    }
+
+    findSlot(category) {
+        for (let i = 0; i < this.numberOfFloors; i++) {
+            // console.log(this._floor[i]);
+            for (let slot of this._floor[i]._seatingSlots) {
+                // console.log(slot);
+                if (slot.category == category && !slot._isBooked) {
+                    // console.log("slotcatf", slot);
+                    return { floorNumber: i, slot: slot }
+
+                }
+            }
+        }
+        return false;
+    }
+
+    takeSeat(categoryType){
+        // console.log('categoryType:', categoryType.category)
+
+        let slot = this.findSlot(categoryType.category);
+
+        if(!slot){
+            console.log("No slots are available");
+            return false;
+        }
+
+        this.bookSlot(slot);
+        // console.log(slot)
+        let ticket = new Ticket(categoryType.age, categoryType.gender, categoryType.category, slot.floorNumber, slot.slot.number);
+        console.log("Ticket is issued: ", ticket);
+        
+        
+    }
+
+
+    bookSlot(slot){
+        // console.log(slot);
+        slot.slot._isBooked = true;
+
+        console.log("\nSlot is Booked",slot);
+
+        return true;
+    }
+}
+
+
+class Ticket{
+    constructor(age,gender,category,floorNumber, slotNumber){
+        this.Age = age;
+        this.Gender = gender;
+        this.Category = category;
+        this.floorNumber = floorNumber;
+        this.slotNumber = slotNumber;
+        this.Date = new Date();
+    }
+}
+
+let s1 = new Stadium(3);
+// console.log('s1:', s1);
+
+let vvips1 = new VVIPs(23, "Male");
+s1.takeSeat(vvips1);
+
+let vips1 = new VIPs(21, "Female");
+s1.takeSeat(vips1);
+
+let general = new General(15, "Male");
+s1.takeSeat(general);
+
+let vvips2 = new VVIPs(25, "Female");
+s1.takeSeat(vvips2);
+</script>
