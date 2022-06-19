@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #cont{
+            display: grid;
+            /* flex-wrap: wrap; */
+            gap: 20px;
+            justify-content: space-evenly;
+            text-align: center;
+            /* border: 1px solid red; */
+            grid-template-columns: repeat(3,30%);
+
+        }
+        body{
+         color: white;
+         background-color: teal;
+     }
+    
+
+p{
+    font-size: 20px;
+}
+
+#name{
+    margin-left: 40%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+h1{
+    text-align: center;
+}
+.get{
+    border: 0px;
+    padding: 10px;
+    background-color: black;
+    color: white;
+    margin-left: 20px;
+}
+   
+    </style>
+</head>
+<body>
+    <h1>Enter Movie Name</h1>
+    <input type="text" id="name" placeholder="movie name" />
+    <button class="get" onclick="fetchApi()">SEARCH</button>
+    <div id="cont">
+        
+    </div>
+</body>
+</html>
+
+<script>
+
+    async function fetchApi()
+    {
+      try
+      {
+        let name=document.getElementById("name").value
+
+        let url=`http://www.omdbapi.com/?i=tt3896198&apikey=14cc5fd8&t=${name}`
+        let res= await fetch(url)
+        let data= await res.json()
+
+        showdata(data)
+        console.log(data)
+      } 
+      catch (err)
+      {
+        alert("sorry u are wrong")
+      }
+      finally
+      {
+        console.log("completed")
+      }
+    }
+
+function showdata(arr)
+{
+let divTag=document.getElementById("cont")
+
+    if(arr.Response=="True"){
+// divTag.innerHTML=""
+        let div=document.createElement("div")
+
+        let img=document.createElement("img")
+        let Released=document.createElement("p")
+        let title=document.createElement("h2")
+        let imdbRating=document.createElement("p")
+        let Plot=document.createElement("p")
+
+        img.src=arr.Poster
+        Released.innerText=`Released Date:  ${arr.Released}`
+        title.innerText=`Movie Name:  ${arr.Title}`
+        imdbRating.innerText=`imdbRating:  ${arr.imdbRating}`
+        Plot.innerText=`INFO  :  ${arr.Plot}`
+
+
+        div.append(title,img,Released,imdbRating,Plot)
+        divTag.append(div)
+
+    }else{
+        // alert("Sorry....!! ,This Movie is Not Found")
+        window.location.href="sry_msg.html"
+    }
+}
+
+
+
+</script>
